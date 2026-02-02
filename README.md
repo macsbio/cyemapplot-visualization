@@ -102,5 +102,43 @@ cyemapplot(do.ora.sim,
 Basic network visualization of Disease Ontology enrichment results using `cyemapplot`. 
 Component filtering (min_cluster_size = 8) removed small clusters, showing a network of 37 nodes organized into four major functional modules. Nodes represent enriched terms (size = gene set size), edges represent gene overlap (Jaccard ≥ 0.4). The largest cluster centers on Inclusion Body Myositis (IBM, highlighted in blue), the disease used for the use case.
 
+**Pie Chart Visualization:**
+
+```r
+# Create pie chart Cytoscape visualization 
+cyemapplot(wp.ora.sim,  
+           show_category = nrow(ora_wp),		# Number of enriched pathways 
+           min_edge = 0.2,				# Lower threshold for pathway overlap 
+           visualization = "pie",			# Pie chart style 
+           ig_layout = igraph::layout_with_kk, 
+           layout_scale = 800, 
+           min_cluster_size = 1,			# Keep all components (no size filter) 
+           analysis_name = "IBM WP-ORA")
+```
+![Figure](Output-plots/cyemapplot-pie-main.png)
+Pie chart network visualization of WikiPathways enrichment results using cyemapplot.
+WikiPathways enrichment identified 76 terms from IBM differential expression data (6,154 DEGs; |log2FC| > 1 and p-value < 0.05). Pie charts show query genes (purple) vs. other genes in pathway (white). Edges represent gene overlap (Jaccard ≥ 0.2). The highlighted nodes and edges (pink) show the top cluster in the main network with pathway related to immune regulation. 
+
+**DEG Visualization (requires differential expression data):**
+
+```r
+# Create DEG visualization in Cytoscape 
+cyemapplot(gsea.go.bp.sim, 
+           show_category = nrow(gsea_go_bp),	# All enriched GO terms 
+           min_edge = 0.4,                	# Moderate similarity threshold 
+           visualization = "deg",          	# DEG style with expression info
+           degs_data = data_mapped,          	# Differential expression data 
+           ig_layout = igraph::layout_with_kk, 
+           layout_scale = 800, 
+           min_cluster_size = 3,           	# Remove small components
+           plot_clusters = TRUE,		# Create subnetworks for top clusters
+           top_clusters = 5,       		# Top 10 clusters  
+           analysis_name = "IBM GO-GSEA")
+ ```
+<p float="left">
+  <img src="Output-plots/cyemapplot-deg-main.png" width="45%" />
+  <img src="Output-plots/cyemapplot-deg-top1cluster.png" width="45%" />
+</p>
+
 
 
