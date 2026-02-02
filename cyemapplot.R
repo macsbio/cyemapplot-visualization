@@ -56,9 +56,10 @@ cyemapplot <- function(ea_sim, analysis_name = "Enrichment", show_category=30, m
   key <- if ("name" %in% node.cols) "name" else if ("shared name" %in% node.cols) "shared name" else stop("No node key column found")
   RCy3::loadTableData(gs.info, data.key.column = "Description", table.key.column = key)
   
+  # In the main cyemapplot function, change this line:
   if (visualization == "basic") basic_viz(is_gsea = is_gsea)
   else if (visualization == "pie") pie_chart_viz()
-  else if (visualization == "deg") deg_viz(degs_data, gs.info)
+  else if (visualization == "deg") deg_viz(degs_data, gs.info, is_gsea = is_gsea)  
   
   # ---- COMPONENT SUBNETWORKS ----
   if (plot_clusters) {
@@ -91,7 +92,7 @@ cyemapplot <- function(ea_sim, analysis_name = "Enrichment", show_category=30, m
       
       if (visualization == "basic") basic_viz(is_gsea = is_gsea)
       else if (visualization == "pie") pie_chart_viz()
-      else if (visualization == "deg") deg_viz(degs_data, gs.info)
+      else if (visualization == "deg") deg_viz(degs_data, gs.info, is_gsea = is_gsea)  
     }
   }
 }
@@ -138,7 +139,8 @@ pie_chart_viz <- function() {
   RCy3::setVisualStyle("cyemapplot_piechart")
 }
 
-deg_viz <- function(degs_data, gs.info) {
+# Modified deg_viz function signature
+deg_viz <- function(degs_data, gs.info, is_gsea = FALSE) {
   up <- degs_data[degs_data$log2FC > 0,]
   down <- degs_data[degs_data$log2FC < 0,]
   
@@ -146,7 +148,6 @@ deg_viz <- function(degs_data, gs.info) {
     sum(genes %in% up$ID)
   })
   
-  # Add column for number of downregulated genes
   gs.info$n_down <- sapply(strsplit(gs.info$geneID, "/"), function(genes) {
     sum(genes %in% down$ID)
   })
@@ -156,14 +157,33 @@ deg_viz <- function(degs_data, gs.info) {
   
   RCy3::loadTableData(gs.info, data.key.column = "Description", table.key.column = key)
   
-  
   if(!("cyemapplot_basic" %in% RCy3::getVisualStyleNames())) {
-    basic_viz()
+    basic_viz(is_gsea = is_gsea)  # <-- FIX 1: Pass is_gsea parameter
   }
+  
   if(!("cyemapplot_degs" %in% RCy3::getVisualStyleNames())) {
-    #TODO: fix for GSEA - should not use core_enrichment but all genes in the pathway
     RCy3::copyVisualStyle(from.style = "cyemapplot_basic", to.style = "cyemapplot_degs")
-    RCy3::setNodeCustomPieChart(columns = c("rest", "n_up","n_down"), colors = c("#FFFFFF","#D6604D","#4393C3"), slot = 2, startAngle = 90, style.name = "cyemapplot_degs")
+    RCy3::setNodeCustomPieChart(columns = c("rest", "n_up","n_down"), 
+                                colors = c("#FFFFFF","#D6604D","#4393C3"), 
+                                slot = 2, 
+                                startAngle = 90, 
+                                style.name = "cyemapplot_degs")
+    
+    # FIX 2: Add border color mapping for GSEA in the deg style
+    if (is_gsea && ("NES_cat" %in% node.cols)) {
+      RCy3::setNodeBorderColorMapping(
+        "NES_cat",
+        table.column.values = c("up", "down"),
+        colors = c("#D6604D", "#4393C3"),
+        mapping.type = "d",
+        default.color = "#CCCCCC",
+        style.name = "cyemapplot_degs"
+      )
+      RCy3::setNodeBorderWidthDefault(9, "cyemapplot_degs") 
+    } else {
+      RCy3::setNodeBorderColorDefault("#CCCCCC", style.name = "cyemapplot_degs")
+      RCy3::setNodeBorderWidthDefault(3, "cyemapplot_degs")
+    }
   }
   RCy3::setVisualStyle("cyemapplot_degs")
 }
@@ -191,7 +211,7 @@ ora.info.basic <- function(ea.df.filt) {
   ea.df.info$input <- ea.df.info$query.genes.in.term ## double check this
   
   
-  ea.df.info <- ea.df.info %>% select(-query.genes, -background.genes)
+  ea.df.info <- ea.df.info %>% dplyr::select(-query.genes, -background.genes)
   return(ea.df.info)
 }
 
