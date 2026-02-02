@@ -137,7 +137,7 @@ cyemapplot(gsea.go.bp.sim,
  ```
 <p float="left">
   <img src="Output-plots/cyemapplot-deg-main.png" width="45%" />
-  <img src="Output-plots/cyemapplot-deg-top1cluster.png" width="45%" />
+  <img src="Output-plots/cyemapplot-deg-top1cluster.png" width="60%" />
 </p>
 
 
