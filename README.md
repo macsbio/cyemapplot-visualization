@@ -99,7 +99,8 @@ cyemapplot(do.ora.sim,
            analysis_name = "IBM-DO-ORA")
 ```
 ![Figure](Output-plots/cyemapplot-basic-main.png)
-
+Basic network visualization of Disease Ontology enrichment results using `cyemapplot`. 
+Component filtering (min_cluster_size = 8) removed small clusters, showing a network of 37 nodes organized into four major functional modules. Nodes represent enriched terms (size = gene set size), edges represent gene overlap (Jaccard ≥ 0.4). The largest cluster centers on Inclusion Body Myositis (IBM, highlighted in blue), the disease used for the use case.
 
 
 
