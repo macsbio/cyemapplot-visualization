@@ -58,8 +58,8 @@ Or download the ZIP file:
 2. Select "Download ZIP"
 3. Extract to your preferred location
 
-### cyemapplot function parameters overview
-## Function Parameters
+
+## cyemapplot function Parameters
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
@@ -75,7 +75,29 @@ Or download the ZIP file:
 | `plot_clusters` | Create separate subnetworks for top clusters | FALSE |
 | `top_clusters` | Number of top clusters to plot separately | 5 |
 
+## Visualization Styles
 
+### Basic Style
+- **Purpose:** Initial exploration of functionally enriched terms
+- **Features:**
+  - Nodes represent enriched terms (size = gene set size)
+  - Edges represent term similarity (weighted by Jaccard index)
+  - Grey nodes and edges
+  - For GSEA: Red/blue node borders indicate positive/negative normalised enrichment score (NES)
+
+**Basic Visualization:**
+
+```r
+# Create basic Cytoscape visualization 
+cyemapplot(do.ora.sim, 
+           show_category = nrow(ora_do), # Number of terms to display 
+           min_edge = 0.4,				# Minimum similarity threshold
+           visualization = "basic",		# Basic style 
+           ig_layout = igraph::layout_with_kk,	# Kamada-Kawai layout
+           layout_scale = 800,			# Layout scaling factor 
+           min_cluster_size = 8,			# Min cluster size filter 
+           analysis_name = "IBM-DO-ORA")
+```
 
 
 
