@@ -98,6 +98,7 @@ cyemapplot(do.ora.sim,
            min_cluster_size = 8,			# Min cluster size filter 
            analysis_name = "IBM-DO-ORA")
 ```
+![Figure](Output-plots/cyemapplot-basic-main.png)
 
 
 
