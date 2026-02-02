@@ -116,7 +116,7 @@ cyemapplot(wp.ora.sim,
            analysis_name = "IBM WP-ORA")
 ```
 ![Figure](Output-plots/cyemapplot-pie-main.png)
-Pie chart network visualization of WikiPathways enrichment results using cyemapplot.
+Pie chart network visualization of WikiPathways enrichment results using `cyemapplot`.
 WikiPathways enrichment identified 76 terms from IBM differential expression data (6,154 DEGs; |log2FC| > 1 and p-value < 0.05). Pie charts show query genes (purple) vs. other genes in pathway (white). Edges represent gene overlap (Jaccard ≥ 0.2). The highlighted nodes and edges (pink) show the top cluster in the main network with pathway related to immune regulation. 
 
 **DEG Visualization (requires differential expression data):**
@@ -135,10 +135,10 @@ cyemapplot(gsea.go.bp.sim,
            top_clusters = 5,       		# Top 10 clusters  
            analysis_name = "IBM GO-GSEA")
  ```
-<p float="left">
-  <img src="Output-plots/cyemapplot-deg-main.png" width="45%" />
-  <img src="Output-plots/cyemapplot-deg-top1cluster.png" width="60%" />
-</p>
+![Figure](Output-plots/cyemapplot-deg-main.png)
+DEG network visualization of GO enrichment results using `cyemapplot`. 
+GO enrichment identified 446 terms using a ranked gene list (IBM vs. Control) based on log2FC and p-value. Component filtering (min_cluster_size = 3) removed small clusters, resulting in a network of 341 nodes. Pie charts show up-regulated (red), down-regulated (blue), and unchanged (white) genes within each term. Node border colors indicate enrichment direction for GSEA (red = positive NES, blue = negative NES). Edges represent gene overlap (Jaccard ≥ 0.4).
 
-
+![Figure](Output-plots/cyemapplot-deg-top1cluster.png)
+Magnified view of the largest component (top1cluster) showing 58 GO terms from the complete filtered main network show above.
 
