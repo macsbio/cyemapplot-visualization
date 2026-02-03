@@ -19,6 +19,18 @@
 
 - **Multiple Databases Supported:** Disease Ontology, WikiPathways, Gene Ontology, KEGG, Reactome, and custom gene sets
 
+### Clone the Repository
+
+```bash
+git clone https://github.com/macsbio/cyemapplot-visualization.git
+cd cyemapplot-visualization
+```
+
+Or download the ZIP file:
+1. Click the green "Code" button
+2. Select "Download ZIP"
+3. Extract to your preferred location
+
 ### Prerequisites
 
 1. **R** (version 4.5.1 or higher): [Download R](https://www.r-project.org/)
@@ -45,18 +57,6 @@ renv::restore()
 - RCy3
 - igraph
 - tidyverse
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/macsbio/cyemapplot-visualization.git
-cd cyemapplot-visualization
-```
-
-Or download the ZIP file:
-1. Click the green "Code" button
-2. Select "Download ZIP"
-3. Extract to your preferred location
 
 
 ## cyemapplot function Parameters
